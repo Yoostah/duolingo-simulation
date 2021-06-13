@@ -1,4 +1,12 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
-export const Container = styled.div`
-  `;
+interface IWordProps {
+  wrongAnswer: boolean;
+}
+export const Container = styled.div<IWordProps>`
+  ${(props) =>
+    props.wrongAnswer &&
+    css`
+      background: red;
+    `}
+`;

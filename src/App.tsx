@@ -1,8 +1,13 @@
 import React from 'react';
-import Word from './components/Word';
+
+import ChooseWord from './pages/ChooseWord';
 
 const App: React.FC = () => {
-  return <Word />;
-}
+  return (
+    <div className="container">
+      <ChooseWord />
+    </div>
+  );
+};
 
 export default App;
