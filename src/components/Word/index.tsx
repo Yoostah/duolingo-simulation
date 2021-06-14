@@ -10,6 +10,7 @@ const Word: React.FC<IWord> = ({ word, shouldChange, showAnswer = false }) => {
   const [realWord, setRealWord] = useState(word);
   const [modifiedWord, setModifiedWord] = useState('');
   const [wordIsModified, setWordIsModified] = useState(false);
+  const [selected, setSelected] = useState(false);
 
   const changeWord = useCallback((string: string) => {
     return `${string}ed`;
@@ -25,9 +26,21 @@ const Word: React.FC<IWord> = ({ word, shouldChange, showAnswer = false }) => {
     }
   }, [realWord, modifiedWord, showAnswer]);
 
+  const handleClick = useCallback(() => {
+    if (showAnswer) return;
+
+    setSelected((state) => !state);
+  }, [showAnswer]);
+
   return (
-    <Container wrongAnswer={wordIsModified}>
-      <p>{modifiedWord}</p>
+    <Container
+      wrongAnswer={wordIsModified}
+      revealAnswer={showAnswer}
+      selected={selected}
+    >
+      <button type="button" onClick={handleClick}>
+        {modifiedWord}
+      </button>
     </Container>
   );
 };
