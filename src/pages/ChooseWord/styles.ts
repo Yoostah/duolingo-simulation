@@ -13,3 +13,9 @@ export const GameContainer = styled.div`
   justify-content: space-around;
   /* flex-direction: column; */
 `;
+
+export const ButtonContainer = styled.div`
+  display: flex;
+  justify-content: end;
+  margin: 10px 0;
+`;

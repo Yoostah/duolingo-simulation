@@ -27,7 +27,7 @@ export const Container = styled.div<IWordProps>`
       !props.wrongAnswer &&
       props.revealAnswer &&
       css`
-        border: 2px solid ${colors.green};
+        border-color: ${colors.green};
       `}
 
     ${(props) =>
