@@ -32,6 +32,7 @@
       "import/prefer-default-export": "off",
       "react/jsx-props-no-spreading": "off",
       "react/prop-types": "off",
+      "react/require-default-props": "off",
       "no-lone-blocks":"off",
       "camelcase": "off",
       "no-param-reassign": "off",

@@ -1,17 +1,14 @@
-import React, { ButtonHTMLAttributes, HTMLAttributes, ReactNode } from 'react';
+import React, { ButtonHTMLAttributes } from 'react';
 
 import { Container } from './styles';
 
-interface ButtonProps extends HTMLAttributes<HTMLButtonElement> {
+interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   color?: 'success' | 'danger' | 'default';
   text: string;
 }
 
-const Button: React.FC<ButtonProps> = ({
-  text,
-  color = 'default',
-  ...rest
-}) => {
+const Button = (props: ButtonProps) => {
+  const { text, color = 'default', ...rest } = props;
   return (
     <Container type="button" {...rest} color={color}>
       {text}
