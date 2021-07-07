@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
+import ReactTooltip from 'react-tooltip';
 import { Container } from './styles';
 
 interface IWord {
@@ -6,19 +7,12 @@ interface IWord {
   correctWord: string;
   showAnswer?: boolean;
 }
+
 const Word: React.FC<IWord> = ({ word, correctWord, showAnswer = false }) => {
   const [trueWord, setTrueWord] = useState(correctWord);
   const [modifiedWord, setModifiedWord] = useState(word);
   const [wordIsWrong, setWordIsWrong] = useState(false);
   const [selected, setSelected] = useState(false);
-
-  const changeWord = useCallback((string: string) => {
-    return `${string}ed`;
-  }, []);
-
-  // useEffect(() => {
-  //   setModifiedWord(shouldChange ? changeWord(trueWord) : trueWord);
-  // }, [trueWord, shouldChange, changeWord]);
 
   useEffect(() => {
     if (showAnswer) {
@@ -38,7 +32,12 @@ const Word: React.FC<IWord> = ({ word, correctWord, showAnswer = false }) => {
       revealAnswer={showAnswer}
       selected={selected}
     >
-      <button type="button" onClick={handleClick}>
+      {wordIsWrong && showAnswer && selected && <ReactTooltip />}
+      <button
+        type="button"
+        data-tip={wordIsWrong && showAnswer && selected ? trueWord : ''}
+        onClick={handleClick}
+      >
         {modifiedWord}
       </button>
     </Container>

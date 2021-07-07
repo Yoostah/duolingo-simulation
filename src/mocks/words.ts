@@ -13,11 +13,10 @@ export function selectRandomWords(neededElements: number) {
         key: key.toString(),
       });
     } else {
+      const keyWrong = Math.floor(Math.random() * wrongWords.length);
       selectedWords.push({
-        correctWord:
-          wrongWords[Math.floor(Math.random() * wrongWords.length)].correct,
-        word: wrongWords[Math.floor(Math.random() * wrongWords.length)]
-          .misspelled,
+        correctWord: wrongWords[keyWrong].correct,
+        word: wrongWords[keyWrong].misspelled,
         weight: key,
         key: key.toString(),
       });
@@ -26,8 +25,29 @@ export function selectRandomWords(neededElements: number) {
   return selectedWords;
 }
 
+export function addNewWords() {
+  let count = 0;
+  let idx = 0;
+  const newArray: string[] = [];
+  for (let i = 0; i < newWords.length; i += 1) {
+    if (count < 3) {
+      if (!count) {
+        newArray[idx] = newWords[i];
+      } else {
+        newArray[idx] += `,${newWords[i]}`;
+      }
+      count += 1;
+    } else {
+      count = 1;
+      idx += 1;
+      newArray[idx] = newWords[i];
+    }
+  }
+  return newArray;
+}
+
 // prettier-ignore
-const words = ["a", "abandon", "ability", "able", "abortion", "about", "above", "abroad", "absence", "absolute", "absolutely", "absorb", "abstract", "abuse",
+const words = ["abandon", "ability", "able", "abortion", "about", "above", "abroad", "absence", "absolute", "absolutely", "absorb", "abstract", "abuse",
     "academic", "accelerate", "accent", "accept", "acceptable", "acceptance", "access", "accessible", "accident", "accommodate", "accompany", "accomplish",
     "accomplishment", "according", "account", "accountability", "accounting", "accuracy", "accurate", "accurately", "accusation", "accuse", "achieve",
     "achievement", "acid", "acknowledge", "acquire", "acquisition", "across", "act", "action", "active", "actively", "activist", "activity", "actor",
@@ -343,692 +363,264 @@ const words = ["a", "abandon", "ability", "able", "abortion", "about", "above", 
 ];
 
 const wrongWords = [
-  {
-    correct: 'absence',
-    misspelled: 'absense',
-  },
-  {
-    correct: 'acceptable',
-    misspelled: 'acceptible',
-  },
-  {
-    correct: 'accidently',
-    misspelled: 'accidentaly',
-  },
-  {
-    correct: 'accommodate',
-    misspelled: 'accomodate',
-  },
-  {
-    correct: 'achieve',
-    misspelled: 'acheive',
-  },
-  {
-    correct: 'acknowledge',
-    misspelled: 'aknowledge',
-  },
-  {
-    correct: 'acquaintance',
-    misspelled: 'aquaintance',
-  },
-  {
-    correct: 'acquire',
-    misspelled: 'adquire',
-  },
-  {
-    correct: 'acquit',
-    misspelled: 'aquit',
-  },
-  {
-    correct: 'acreage',
-    misspelled: 'acerage',
-  },
-  {
-    correct: 'address',
-    misspelled: 'adress',
-  },
-  {
-    correct: 'adultery',
-    misspelled: 'adultary',
-  },
-  {
-    correct: 'advisable',
-    misspelled: 'adviseable',
-  },
-  {
-    correct: 'affect',
-    misspelled: 'afect',
-  },
-  {
-    correct: 'aggression',
-    misspelled: 'agression',
-  },
-  {
-    correct: 'aggressive',
-    misspelled: 'agressive',
-  },
-  {
-    correct: 'allegiance',
-    misspelled: 'allegaince',
-  },
-  {
-    correct: 'almost',
-    misspelled: 'allmost',
-  },
-  {
-    correct: 'a lot',
-    misspelled: 'alot',
-  },
-  {
-    correct: 'amateur',
-    misspelled: 'amatuer',
-  },
-  {
-    correct: 'annually',
-    misspelled: 'annualy',
-  },
-  {
-    correct: 'apparent',
-    misspelled: 'aparent',
-  },
-  {
-    correct: 'arctic',
-    misspelled: 'artic',
-  },
-  {
-    correct: 'argument',
-    misspelled: 'arguement',
-  },
-  {
-    correct: 'atheist',
-    misspelled: 'athiest',
-  },
-  {
-    correct: 'awful',
-    misspelled: 'awfull',
-  },
-  {
-    correct: 'because',
-    misspelled: 'becuase',
-  },
-  {
-    correct: 'beautiful',
-    misspelled: 'beatiful',
-  },
-  {
-    correct: 'becoming',
-    misspelled: 'becomeing',
-  },
-  {
-    correct: 'beginning',
-    misspelled: 'begining',
-  },
-  {
-    correct: 'believe',
-    misspelled: 'beleive',
-  },
-  {
-    correct: 'bellwether',
-    misspelled: 'bellweather',
-  },
-  {
-    correct: 'business',
-    misspelled: 'busines',
-  },
-  {
-    correct: 'calendar',
-    misspelled: 'calender',
-  },
-  {
-    correct: 'camouflage',
-    misspelled: 'camoflage',
-  },
-  {
-    correct: 'category',
-    misspelled: 'cathegory',
-  },
-  {
-    correct: 'caught',
-    misspelled: 'cauhgt',
-  },
-  {
-    correct: 'cemetery',
-    misspelled: 'cemetary',
-  },
-  {
-    correct: 'changeable',
-    misspelled: 'changeble',
-  },
-  {
-    correct: 'chief',
-    misspelled: 'cheif',
-  },
-  {
-    correct: 'colleague',
-    misspelled: 'collegue',
-  },
-  {
-    correct: 'column',
-    misspelled: 'colum',
-  },
-  {
-    correct: 'coming',
-    misspelled: 'comming',
-  },
-  {
-    correct: 'committed',
-    misspelled: 'commited',
-  },
-  {
-    correct: 'comparison',
-    misspelled: 'comparsion',
-  },
-  {
-    correct: 'concede',
-    misspelled: 'conceed',
-  },
-  {
-    correct: 'congratulate',
-    misspelled: 'congradulate',
-  },
-  {
-    correct: 'conscientious',
-    misspelled: 'consciencious',
-  },
-  {
-    correct: 'conscious',
-    misspelled: 'concious',
-  },
-  {
-    correct: 'consensus',
-    misspelled: 'concensus',
-  },
-  {
-    correct: 'controversy',
-    misspelled: 'contraversy',
-  },
-  {
-    correct: 'coolly',
-    misspelled: 'cooly',
-  },
-  {
-    correct: 'deceive',
-    misspelled: 'decieve',
-  },
-  {
-    correct: 'definite',
-    misspelled: 'definit',
-  },
-  {
-    correct: 'definitely',
-    misspelled: 'definitly',
-  },
-  {
-    correct: 'desperate',
-    misspelled: 'desparate',
-  },
-  {
-    correct: 'difference',
-    misspelled: 'diffrence',
-  },
-  {
-    correct: 'dilemma',
-    misspelled: 'dilema',
-  },
-  {
-    correct: 'disappoint',
-    misspelled: 'dissapoint',
-  },
-  {
-    correct: 'disastrous',
-    misspelled: 'disasterous',
-  },
-  {
-    correct: 'drunkenness',
-    misspelled: 'drunkeness',
-  },
-  {
-    correct: 'embarrass',
-    misspelled: 'embarass',
-  },
-  {
-    correct: 'equipment',
-    misspelled: 'equiptment',
-  },
-  {
-    correct: 'exceed',
-    misspelled: 'excede',
-  },
-  {
-    correct: 'exhilarate',
-    misspelled: 'exilerate',
-  },
-  {
-    correct: 'existence',
-    misspelled: 'existance',
-  },
-  {
-    correct: 'experience',
-    misspelled: 'experiance',
-  },
-  {
-    correct: 'extreme',
-    misspelled: 'extream',
-  },
-  {
-    correct: 'fascinating',
-    misspelled: 'facinating',
-  },
-  {
-    correct: 'fiery',
-    misspelled: 'firey',
-  },
-  {
-    correct: 'fluorescent',
-    misspelled: 'flourescent',
-  },
-  {
-    correct: 'foreign',
-    misspelled: 'foriegn',
-  },
-  {
-    correct: 'friend',
-    misspelled: 'freind',
-  },
-  {
-    correct: 'fulfil',
-    misspelled: 'fullfil',
-  },
-  {
-    correct: 'gauge',
-    misspelled: 'guage',
-  },
-  {
-    correct: 'grateful',
-    misspelled: 'gratefull',
-  },
-  {
-    correct: 'great',
-    misspelled: 'grate',
-  },
-  {
-    correct: 'guarantee',
-    misspelled: 'garantee',
-  },
-  {
-    correct: 'guidance',
-    misspelled: 'guidence',
-  },
-  {
-    correct: 'harass',
-    misspelled: 'harrass',
-  },
-  {
-    correct: 'height',
-    misspelled: 'heigth',
-  },
-  {
-    correct: 'hierarchy',
-    misspelled: 'heirarchy',
-  },
-  {
-    correct: 'hygiene',
-    misspelled: 'hygine',
-  },
-  {
-    correct: 'hypocrite',
-    misspelled: 'hipocrit',
-  },
-  {
-    correct: 'ignorance',
-    misspelled: 'ignorence',
-  },
-  {
-    correct: 'imitate',
-    misspelled: 'immitate',
-  },
-  {
-    correct: 'immediately',
-    misspelled: 'imediately',
-  },
-  {
-    correct: 'indict',
-    misspelled: 'indite',
-  },
-  {
-    correct: 'independent',
-    misspelled: 'independant',
-  },
-  {
-    correct: 'indispensable',
-    misspelled: 'indispensible',
-  },
-  {
-    correct: 'inoculate',
-    misspelled: 'innoculate',
-  },
-  {
-    correct: 'intelligence',
-    misspelled: 'inteligence',
-  },
-  {
-    correct: 'jewelry',
-    misspelled: 'jewelery',
-  },
-  {
-    correct: 'judgment',
-    misspelled: 'judgement',
-  },
-  {
-    correct: 'leisure',
-    misspelled: 'liesure',
-  },
-  {
-    correct: 'library',
-    misspelled: 'librery',
-  },
-  {
-    correct: 'license',
-    misspelled: 'lisence',
-  },
-  {
-    correct: 'lightning',
-    misspelled: 'lightening',
-  },
-  {
-    correct: 'lose',
-    misspelled: 'loose',
-  },
-  {
-    correct: 'maintenance',
-    misspelled: 'maintainance',
-  },
-  {
-    correct: 'medieval',
-    misspelled: 'medival',
-  },
-  {
-    correct: 'millennium',
-    misspelled: 'millenium',
-  },
-  {
-    correct: 'miniature',
-    misspelled: 'miniture',
-  },
-  {
-    correct: 'minuscule',
-    misspelled: 'miniscule',
-  },
-  {
-    correct: 'misspell',
-    misspelled: 'mispell',
-  },
-  {
-    correct: 'necessary',
-    misspelled: 'neccessary',
-  },
-  {
-    correct: 'niece',
-    misspelled: 'neice',
-  },
-  {
-    correct: 'neighbour',
-    misspelled: 'neighbor',
-  },
-  {
-    correct: 'noticeable',
-    misspelled: 'noticable',
-  },
-  {
-    correct: 'occasion',
-    misspelled: 'occassion',
-  },
-  {
-    correct: 'occasionally',
-    misspelled: 'occasionaly',
-  },
-  {
-    correct: 'occurrence',
-    misspelled: 'occurence',
-  },
-  {
-    correct: 'occurred',
-    misspelled: 'occured',
-  },
-  {
-    correct: 'omission',
-    misspelled: 'ommision',
-  },
-  {
-    correct: 'original',
-    misspelled: 'orignal',
-  },
-  {
-    correct: 'outrageous',
-    misspelled: 'outragous',
-  },
-  {
-    correct: 'parliament',
-    misspelled: 'parliment',
-  },
-  {
-    correct: 'pastime',
-    misspelled: 'passtime',
-  },
-  {
-    correct: 'perceive',
-    misspelled: 'percieve',
-  },
-  {
-    correct: 'perseverance',
-    misspelled: 'perseverence',
-  },
-  {
-    correct: 'personnel',
-    misspelled: 'personel',
-  },
-  {
-    correct: 'plagiarize',
-    misspelled: 'plagerize',
-  },
-  {
-    correct: 'playwright',
-    misspelled: 'playwrite',
-  },
-  {
-    correct: 'possession',
-    misspelled: 'posession',
-  },
-  {
-    correct: 'potatoes',
-    misspelled: 'potatos',
-  },
-  {
-    correct: 'precede',
-    misspelled: 'preceed',
-  },
-  {
-    correct: 'presence',
-    misspelled: 'presance',
-  },
-  {
-    correct: 'privilege',
-    misspelled: 'priviledge',
-  },
-  {
-    correct: 'professor',
-    misspelled: 'proffessor',
-  },
-  {
-    correct: 'promise',
-    misspelled: 'promiss',
-  },
-  {
-    correct: 'pronunciation',
-    misspelled: 'pronounciation',
-  },
-  {
-    correct: 'proof',
-    misspelled: 'prufe',
-  },
-  {
-    correct: 'publicly',
-    misspelled: 'publically',
-  },
-  {
-    correct: 'quarantine',
-    misspelled: 'quarentine',
-  },
-  {
-    correct: 'questionnaire',
-    misspelled: 'questionaire',
-  },
-  {
-    correct: 'readable',
-    misspelled: 'readible',
-  },
-  {
-    correct: 'really',
-    misspelled: 'realy',
-  },
-  {
-    correct: 'receive',
-    misspelled: 'recieve',
-  },
-  {
-    correct: 'receipt',
-    misspelled: 'reciept',
-  },
-  {
-    correct: 'recommend',
-    misspelled: 'reccommend',
-  },
-  {
-    correct: 'referred',
-    misspelled: 'refered',
-  },
-  {
-    correct: 'reference',
-    misspelled: 'referance',
-  },
-  {
-    correct: 'relevant',
-    misspelled: 'relevent',
-  },
-  {
-    correct: 'religious',
-    misspelled: 'religius',
-  },
-  {
-    correct: 'repetition',
-    misspelled: 'repitition',
-  },
-  {
-    correct: 'restaurant',
-    misspelled: 'restourant',
-  },
-  {
-    correct: 'rhyme',
-    misspelled: 'rime',
-  },
-  {
-    correct: 'rhythm',
-    misspelled: 'rythm',
-  },
-  {
-    correct: 'secretary',
-    misspelled: 'secretery',
-  },
-  {
-    correct: 'seize',
-    misspelled: 'sieze',
-  },
-  {
-    correct: 'separate',
-    misspelled: 'seperate',
-  },
-  {
-    correct: 'sergeant',
-    misspelled: 'sargent',
-  },
-  {
-    correct: 'similar',
-    misspelled: 'similer',
-  },
-  {
-    correct: 'skilful',
-    misspelled: 'skilfull',
-  },
-  {
-    correct: 'speech',
-    misspelled: 'speach',
-  },
-  {
-    correct: 'successful',
-    misspelled: 'succesful',
-  },
-  {
-    correct: 'surprise',
-    misspelled: 'surprize',
-  },
-  {
-    correct: 'tomatoes',
-    misspelled: 'tomatos',
-  },
-  {
-    correct: 'tomorrow',
-    misspelled: 'tommorow',
-  },
-  {
-    correct: 'twelfth',
-    misspelled: 'twelth',
-  },
-  {
-    correct: 'tyranny',
-    misspelled: 'tyrany',
-  },
-  {
-    correct: 'until',
-    misspelled: 'untill',
-  },
-  {
-    correct: 'usable',
-    misspelled: 'usible',
-  },
-  {
-    correct: 'vacuum',
-    misspelled: 'vaccum',
-  },
-  {
-    correct: 'vehicle',
-    misspelled: 'vehical',
-  },
-  {
-    correct: 'vicious',
-    misspelled: 'visious',
-  },
-  {
-    correct: 'weather',
-    misspelled: 'wether',
-  },
-  {
-    correct: 'weird',
-    misspelled: 'wierd',
-  },
-  {
-    correct: 'welfare',
-    misspelled: 'wellfare, welfair',
-  },
-  {
-    correct: 'whether',
-    misspelled: 'wether',
-  },
-  {
-    correct: 'wilful',
-    misspelled: 'wilfull',
-  },
-  {
-    correct: 'writing',
-    misspelled: 'writting',
-  },
+  { correct: 'absence', misspelled: 'absense' },
+  { correct: 'acceptable', misspelled: 'acceptible' },
+  { correct: 'accidently', misspelled: 'accidentaly' },
+  { correct: 'accommodate', misspelled: 'accomodate' },
+  { correct: 'achieve', misspelled: 'acheive' },
+  { correct: 'acknowledge', misspelled: 'aknowledge' },
+  { correct: 'acquaintance', misspelled: 'aquaintance' },
+  { correct: 'acquire', misspelled: 'adquire' },
+  { correct: 'acquit', misspelled: 'aquit' },
+  { correct: 'acreage', misspelled: 'acerage' },
+  { correct: 'address', misspelled: 'adress' },
+  { correct: 'adultery', misspelled: 'adultary' },
+  { correct: 'advisable', misspelled: 'adviseable' },
+  { correct: 'affect', misspelled: 'afect' },
+  { correct: 'aggression', misspelled: 'agression' },
+  { correct: 'aggressive', misspelled: 'agressive' },
+  { correct: 'allegiance', misspelled: 'allegaince' },
+  { correct: 'almost', misspelled: 'allmost' },
+  { correct: 'a lot', misspelled: 'alot' },
+  { correct: 'amateur', misspelled: 'amatuer' },
+  { correct: 'annually', misspelled: 'annualy' },
+  { correct: 'apparent', misspelled: 'aparent' },
+  { correct: 'arctic', misspelled: 'artic' },
+  { correct: 'argument', misspelled: 'arguement' },
+  { correct: 'atheist', misspelled: 'athiest' },
+  { correct: 'awful', misspelled: 'awfull' },
+  { correct: 'because', misspelled: 'becuase' },
+  { correct: 'beautiful', misspelled: 'beatiful' },
+  { correct: 'becoming', misspelled: 'becomeing' },
+  { correct: 'beginning', misspelled: 'begining' },
+  { correct: 'believe', misspelled: 'beleive' },
+  { correct: 'bellwether', misspelled: 'bellweather' },
+  { correct: 'business', misspelled: 'busines' },
+  { correct: 'calendar', misspelled: 'calender' },
+  { correct: 'camouflage', misspelled: 'camoflage' },
+  { correct: 'category', misspelled: 'cathegory' },
+  { correct: 'caught', misspelled: 'cauhgt' },
+  { correct: 'cemetery', misspelled: 'cemetary' },
+  { correct: 'changeable', misspelled: 'changeble' },
+  { correct: 'chief', misspelled: 'cheif' },
+  { correct: 'colleague', misspelled: 'collegue' },
+  { correct: 'column', misspelled: 'colum' },
+  { correct: 'coming', misspelled: 'comming' },
+  { correct: 'committed', misspelled: 'commited' },
+  { correct: 'comparison', misspelled: 'comparsion' },
+  { correct: 'concede', misspelled: 'conceed' },
+  { correct: 'congratulate', misspelled: 'congradulate' },
+  { correct: 'conscientious', misspelled: 'consciencious' },
+  { correct: 'conscious', misspelled: 'concious' },
+  { correct: 'consensus', misspelled: 'concensus' },
+  { correct: 'controversy', misspelled: 'contraversy' },
+  { correct: 'coolly', misspelled: 'cooly' },
+  { correct: 'deceive', misspelled: 'decieve' },
+  { correct: 'definite', misspelled: 'definit' },
+  { correct: 'definitely', misspelled: 'definitly' },
+  { correct: 'desperate', misspelled: 'desparate' },
+  { correct: 'difference', misspelled: 'diffrence' },
+  { correct: 'dilemma', misspelled: 'dilema' },
+  { correct: 'disappoint', misspelled: 'dissapoint' },
+  { correct: 'disastrous', misspelled: 'disasterous' },
+  { correct: 'drunkenness', misspelled: 'drunkeness' },
+  { correct: 'embarrass', misspelled: 'embarass' },
+  { correct: 'equipment', misspelled: 'equiptment' },
+  { correct: 'exceed', misspelled: 'excede' },
+  { correct: 'exhilarate', misspelled: 'exilerate' },
+  { correct: 'existence', misspelled: 'existance' },
+  { correct: 'experience', misspelled: 'experiance' },
+  { correct: 'extreme', misspelled: 'extream' },
+  { correct: 'fascinating', misspelled: 'facinating' },
+  { correct: 'fiery', misspelled: 'firey' },
+  { correct: 'fluorescent', misspelled: 'flourescent' },
+  { correct: 'foreign', misspelled: 'foriegn' },
+  { correct: 'friend', misspelled: 'freind' },
+  { correct: 'fulfil', misspelled: 'fullfil' },
+  { correct: 'gauge', misspelled: 'guage' },
+  { correct: 'grateful', misspelled: 'gratefull' },
+  { correct: 'great', misspelled: 'grate' },
+  { correct: 'guarantee', misspelled: 'garantee' },
+  { correct: 'guidance', misspelled: 'guidence' },
+  { correct: 'harass', misspelled: 'harrass' },
+  { correct: 'height', misspelled: 'heigth' },
+  { correct: 'hierarchy', misspelled: 'heirarchy' },
+  { correct: 'hygiene', misspelled: 'hygine' },
+  { correct: 'hypocrite', misspelled: 'hipocrit' },
+  { correct: 'ignorance', misspelled: 'ignorence' },
+  { correct: 'imitate', misspelled: 'immitate' },
+  { correct: 'immediately', misspelled: 'imediately' },
+  { correct: 'indict', misspelled: 'indite' },
+  { correct: 'independent', misspelled: 'independant' },
+  { correct: 'indispensable', misspelled: 'indispensible' },
+  { correct: 'inoculate', misspelled: 'innoculate' },
+  { correct: 'intelligence', misspelled: 'inteligence' },
+  { correct: 'jewelry', misspelled: 'jewelery' },
+  { correct: 'judgment', misspelled: 'judgement' },
+  { correct: 'leisure', misspelled: 'liesure' },
+  { correct: 'library', misspelled: 'librery' },
+  { correct: 'license', misspelled: 'lisence' },
+  { correct: 'lightning', misspelled: 'lightening' },
+  { correct: 'lose', misspelled: 'loose' },
+  { correct: 'maintenance', misspelled: 'maintainance' },
+  { correct: 'medieval', misspelled: 'medival' },
+  { correct: 'millennium', misspelled: 'millenium' },
+  { correct: 'miniature', misspelled: 'miniture' },
+  { correct: 'minuscule', misspelled: 'miniscule' },
+  { correct: 'misspell', misspelled: 'mispell' },
+  { correct: 'necessary', misspelled: 'neccessary' },
+  { correct: 'niece', misspelled: 'neice' },
+  { correct: 'neighbour', misspelled: 'neighbor' },
+  { correct: 'noticeable', misspelled: 'noticable' },
+  { correct: 'occasion', misspelled: 'occassion' },
+  { correct: 'occasionally', misspelled: 'occasionaly' },
+  { correct: 'occurrence', misspelled: 'occurence' },
+  { correct: 'occurred', misspelled: 'occured' },
+  { correct: 'omission', misspelled: 'ommision' },
+  { correct: 'original', misspelled: 'orignal' },
+  { correct: 'outrageous', misspelled: 'outragous' },
+  { correct: 'parliament', misspelled: 'parliment' },
+  { correct: 'pastime', misspelled: 'passtime' },
+  { correct: 'perceive', misspelled: 'percieve' },
+  { correct: 'perseverance', misspelled: 'perseverence' },
+  { correct: 'personnel', misspelled: 'personel' },
+  { correct: 'plagiarize', misspelled: 'plagerize' },
+  { correct: 'playwright', misspelled: 'playwrite' },
+  { correct: 'possession', misspelled: 'posession' },
+  { correct: 'potatoes', misspelled: 'potatos' },
+  { correct: 'precede', misspelled: 'preceed' },
+  { correct: 'presence', misspelled: 'presance' },
+  { correct: 'privilege', misspelled: 'priviledge' },
+  { correct: 'professor', misspelled: 'proffessor' },
+  { correct: 'promise', misspelled: 'promiss' },
+  { correct: 'pronunciation', misspelled: 'pronounciation' },
+  { correct: 'proof', misspelled: 'prufe' },
+  { correct: 'publicly', misspelled: 'publically' },
+  { correct: 'quarantine', misspelled: 'quarentine' },
+  { correct: 'questionnaire', misspelled: 'questionaire' },
+  { correct: 'readable', misspelled: 'readible' },
+  { correct: 'really', misspelled: 'realy' },
+  { correct: 'receive', misspelled: 'recieve' },
+  { correct: 'receipt', misspelled: 'reciept' },
+  { correct: 'recommend', misspelled: 'reccommend' },
+  { correct: 'referred', misspelled: 'refered' },
+  { correct: 'reference', misspelled: 'referance' },
+  { correct: 'relevant', misspelled: 'relevent' },
+  { correct: 'religious', misspelled: 'religius' },
+  { correct: 'repetition', misspelled: 'repitition' },
+  { correct: 'restaurant', misspelled: 'restourant' },
+  { correct: 'rhyme', misspelled: 'rime' },
+  { correct: 'rhythm', misspelled: 'rythm' },
+  { correct: 'secretary', misspelled: 'secretery' },
+  { correct: 'seize', misspelled: 'sieze' },
+  { correct: 'separate', misspelled: 'seperate' },
+  { correct: 'sergeant', misspelled: 'sargent' },
+  { correct: 'similar', misspelled: 'similer' },
+  { correct: 'skilful', misspelled: 'skilfull' },
+  { correct: 'speech', misspelled: 'speach' },
+  { correct: 'successful', misspelled: 'succesful' },
+  { correct: 'surprise', misspelled: 'surprize' },
+  { correct: 'tomatoes', misspelled: 'tomatos' },
+  { correct: 'tomorrow', misspelled: 'tommorow' },
+  { correct: 'twelfth', misspelled: 'twelth' },
+  { correct: 'tyranny', misspelled: 'tyrany' },
+  { correct: 'until', misspelled: 'untill' },
+  { correct: 'usable', misspelled: 'usible' },
+  { correct: 'vacuum', misspelled: 'vaccum' },
+  { correct: 'vehicle', misspelled: 'vehical' },
+  { correct: 'vicious', misspelled: 'visious' },
+  { correct: 'weather', misspelled: 'wether' },
+  { correct: 'weird', misspelled: 'wierd' },
+  { correct: 'welfare', misspelled: 'wellfare, welfair' },
+  { correct: 'whether', misspelled: 'wether' },
+  { correct: 'wilful', misspelled: 'wilfull' },
+  { correct: 'writing', misspelled: 'writting' },
+  { correct: 'beat', misspelled: 'beated' },
+  { correct: 'became', misspelled: 'becomed' },
+  { correct: 'began', misspelled: 'begined' },
+  { correct: 'bent', misspelled: 'bended' },
+  { correct: 'bet', misspelled: 'betted' },
+  { correct: 'bid', misspelled: 'bidded' },
+  { correct: 'bit', misspelled: 'bited' },
+  { correct: 'blew', misspelled: 'blowed' },
+  { correct: 'broke', misspelled: 'breaked' },
+  { correct: 'brought', misspelled: 'bringed' },
+  { correct: 'broadcast', misspelled: 'broadcasted' },
+  { correct: 'built', misspelled: 'builded' },
+  { correct: 'bought', misspelled: 'buyed' },
+  { correct: 'caught', misspelled: 'catched' },
+  { correct: 'chose', misspelled: 'choosed' },
+  { correct: 'came', misspelled: 'comed' },
+  { correct: 'cost', misspelled: 'costed' },
+  { correct: 'cut', misspelled: 'cutted' },
+  { correct: 'dug', misspelled: 'digged' },
+  { correct: 'did', misspelled: 'doed' },
+  { correct: 'drew', misspelled: 'drawed' },
+  { correct: 'drove', misspelled: 'drived' },
+  { correct: 'drank', misspelled: 'drinked' },
+  { correct: 'ate', misspelled: 'eated' },
+  { correct: 'fell', misspelled: 'falled' },
+  { correct: 'felt', misspelled: 'feeled' },
+  { correct: 'fought', misspelled: 'fighted' },
+  { correct: 'found', misspelled: 'finded' },
+  { correct: 'flew', misspelled: 'flyed' },
+  { correct: 'forgot', misspelled: 'forgeted' },
+  { correct: 'forgave', misspelled: 'forgived' },
+  { correct: 'froze', misspelled: 'freezed' },
+  { correct: 'got', misspelled: 'getted' },
+  { correct: 'gave', misspelled: 'gived' },
+  { correct: 'went', misspelled: 'goed' },
+  { correct: 'grew', misspelled: 'growed' },
+  { correct: 'hung', misspelled: 'hanged' },
+  { correct: 'had', misspelled: 'haved' },
+  { correct: 'heard', misspelled: 'heared' },
+  { correct: 'hid', misspelled: 'hided' },
+  { correct: 'hit', misspelled: 'hitted' },
+  { correct: 'held', misspelled: 'holded' },
+  { correct: 'hurt', misspelled: 'hurted' },
+  { correct: 'kept', misspelled: 'keeped' },
+  { correct: 'knew', misspelled: 'knowed' },
+  { correct: 'laid', misspelled: 'layed' },
+  { correct: 'led', misspelled: 'leaded' },
+  { correct: 'left', misspelled: 'leaved' },
+  { correct: 'lent', misspelled: 'lended' },
+  { correct: 'let', misspelled: 'letted' },
+  { correct: 'lay', misspelled: 'lied' },
+  { correct: 'lost', misspelled: 'losed' },
+  { correct: 'made', misspelled: 'maked' },
+  { correct: 'meant', misspelled: 'meaned' },
+  { correct: 'met', misspelled: 'meeted' },
+  { correct: 'paid', misspelled: 'payed' },
+  { correct: 'put', misspelled: 'putted' },
+  { correct: 'read', misspelled: 'readed' },
+  { correct: 'rode', misspelled: 'rided' },
+  { correct: 'rang', misspelled: 'ringed' },
+  { correct: 'rose', misspelled: 'rised' },
+  { correct: 'ran', misspelled: 'runned' },
+  { correct: 'said', misspelled: 'sayed' },
+  { correct: 'sold', misspelled: 'selled' },
+  { correct: 'sent', misspelled: 'sended' },
+  { correct: 'shut', misspelled: 'shuted' },
+  { correct: 'sang', misspelled: 'singed' },
+  { correct: 'sank', misspelled: 'sinked' },
+  { correct: 'sat', misspelled: 'sitted' },
+  { correct: 'slept', misspelled: 'sleeped' },
+  { correct: 'spoke', misspelled: 'speaked' },
+  { correct: 'spent', misspelled: 'spended' },
+  { correct: 'stood', misspelled: 'standed' },
+  { correct: 'stank', misspelled: 'stinked' },
+  { correct: 'swam', misspelled: 'swimmed' },
+  { correct: 'took', misspelled: 'taked' },
+  { correct: 'taught', misspelled: 'teached' },
+  { correct: 'tore', misspelled: 'teared' },
+  { correct: 'told', misspelled: 'telled' },
+  { correct: 'thought', misspelled: 'thinked' },
+  { correct: 'threw', misspelled: 'throwed' },
+  { correct: 'understood', misspelled: 'understanded' },
+  { correct: 'woke', misspelled: 'waked' },
+  { correct: 'wore', misspelled: 'weared' },
+  { correct: 'won', misspelled: 'winned' },
+  { correct: 'wrote', misspelled: 'writed' },
 ];
+
+const newWords: string[] = [];
