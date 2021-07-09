@@ -16,6 +16,7 @@ const ChooseWord: React.FC = () => {
   const [round, setRound] = useState(0);
   const [generatedWords, setGeneratedWords] = useState<TChoosenWord[]>([]);
   const [showAnswer, setShowAnswer] = useState(false);
+  const [timeLimit, setTimeLimit] = useState(0);
 
   const MAX_ROUNDS = 3;
   const MINUTES = 0.1;
@@ -44,31 +45,33 @@ const ChooseWord: React.FC = () => {
     setGeneratedWords(selectRandomWords(10));
   };
 
-  const timeToBreath = async (
-    time: number,
-    whoCalled: string,
-    callback?: () => void
-  ) => {
-    console.log(`>> Breath TIME [ ${whoCalled} ] <<`);
-    await delayBetweenAction(time);
-    console.log('>> Breath TIME ENDED <<');
-    if (callback) callback();
-  };
+  // const timeToBreath = async (
+  //   time: number,
+  //   whoCalled: string,
+  //   callback?: () => void
+  // ) => {
+  //   console.log(`>> Breath TIME [ ${whoCalled} ] <<`);
+  //   await delayBetweenAction(time);
+  //   console.log('>> Breath TIME ENDED <<');
+  //   if (callback) callback();
+  // };
 
   const handleShowAnswer = useCallback(() => {
     console.log('Mostrar Resposta');
 
     setShowAnswer(true);
-    timeToBreath(3000, 'reset contador', () => {
-      setGeneratedWords([]);
-      setRound((state) => state + 1);
-      setShowAnswer(false);
-    });
+    // timeToBreath(3000, 'reset contador', () => {
+    //   setGeneratedWords([]);
+    //   setRound((state) => state + 1);
+    //   setShowAnswer(false);
+    // });
   }, []);
 
   const startTheGame = useCallback(() => {
     console.log('Iniciando Jogo');
-    timeToBreath(1000, 'startTheGame', () => setStartGame(true));
+    setStartGame(true);
+    setTimeLimit(MINUTES * 60);
+    // timeToBreath(1000, 'startTheGame', () => setStartGame(true));
   }, []);
 
   const resetGame = useCallback(() => {
@@ -80,30 +83,23 @@ const ChooseWord: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    let roundTimer: NodeJS.Timeout;
-    if (startGame && round < MAX_ROUNDS) {
-      roundTimer = setTimeout(() => {
-        console.log('Should game start: ', startGame);
-        console.log('ROUND:', round);
-        resetGame();
-      }, MINUTES * 60 * 1000);
-    }
-    return () => {
-      clearTimeout(roundTimer);
-    };
+    // let roundTimer: NodeJS.Timeout;
+    // if (startGame && round < MAX_ROUNDS) {
+    //   roundTimer = setTimeout(() => {
+    //     console.log('Should game start: ', startGame);
+    //     console.log('ROUND:', round);
+    //     resetGame();
+    //   }, MINUTES * 60 * 1000);
+    // }
+    // return () => {
+    //   clearTimeout(roundTimer);
+    // };
   }, [startGame, round, resetGame]);
 
   return (
     <>
       <h2>{`ROUND: ${round}`}</h2>
-      {startGame && (
-        <TimeControl
-          duration={MINUTES * 60 * 1000}
-          timeIsOverFunction={handleShowAnswer}
-          resetTimer={!generatedWords.length}
-          stopTimer={showAnswer}
-        />
-      )}
+      {startGame && <TimeControl duration={timeLimit} />}
       <Container>
         <GameContainer>
           {generatedWords.length ? (
