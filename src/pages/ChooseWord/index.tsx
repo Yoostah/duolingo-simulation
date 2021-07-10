@@ -10,6 +10,8 @@ import { Container, GameContainer, ButtonContainer } from './styles';
 import TimeControl from '../../components/TimeControl';
 import Button from '../../components/Button';
 import { delayBetweenAction } from '../../services/utils';
+import { useTime } from '../../hooks/useTime';
+import TimeIsOver from '../../components/TimeIsOver';
 
 const ChooseWord: React.FC = () => {
   const [startGame, setStartGame] = useState(false);
@@ -17,6 +19,8 @@ const ChooseWord: React.FC = () => {
   const [generatedWords, setGeneratedWords] = useState<TChoosenWord[]>([]);
   const [showAnswer, setShowAnswer] = useState(false);
   const [timeLimit, setTimeLimit] = useState(0);
+
+  const { time, resetTimer } = useTime();
 
   const MAX_ROUNDS = 3;
   const MINUTES = 0.1;
@@ -45,61 +49,63 @@ const ChooseWord: React.FC = () => {
     setGeneratedWords(selectRandomWords(10));
   };
 
-  // const timeToBreath = async (
-  //   time: number,
-  //   whoCalled: string,
-  //   callback?: () => void
-  // ) => {
-  //   console.log(`>> Breath TIME [ ${whoCalled} ] <<`);
-  //   await delayBetweenAction(time);
-  //   console.log('>> Breath TIME ENDED <<');
-  //   if (callback) callback();
-  // };
+  const timeToBreath = async (
+    delayTime: number,
+    whoCalled: string,
+    callback?: () => void,
+    cleanupCallback?: () => void
+  ) => {
+    console.log(`>> Breath TIME <<`);
+
+    if (cleanupCallback) {
+      console.log('Cleaning Up the MESS');
+      cleanupCallback();
+    }
+
+    await delayBetweenAction(delayTime);
+    console.log(`>> [ ${whoCalled} ] <<`);
+    if (callback) callback();
+  };
 
   const handleShowAnswer = useCallback(() => {
     console.log('Mostrar Resposta');
-
     setShowAnswer(true);
-    // timeToBreath(3000, 'reset contador', () => {
-    //   setGeneratedWords([]);
-    //   setRound((state) => state + 1);
-    //   setShowAnswer(false);
-    // });
   }, []);
 
   const startTheGame = useCallback(() => {
-    console.log('Iniciando Jogo');
-    setStartGame(true);
+    console.log('Resetando o timer');
+    resetTimer();
+
+    console.log('Ocultando respostas');
+    setShowAnswer(false);
+
+    console.log('Setando tempo do game');
     setTimeLimit(MINUTES * 60);
-    // timeToBreath(1000, 'startTheGame', () => setStartGame(true));
-  }, []);
 
-  const resetGame = useCallback(() => {
-    console.log('Resetando o Jogo');
-
-    // setRound((state) => state + 1);
-    // setShowAnswer(false);
-    getWords();
-  }, []);
+    timeToBreath(
+      3000,
+      'Start The Game',
+      () => {
+        setStartGame(true);
+        setRound((state) => state + 1);
+        getWords();
+      },
+      () => setGeneratedWords([])
+    );
+  }, [resetTimer]);
 
   useEffect(() => {
-    // let roundTimer: NodeJS.Timeout;
-    // if (startGame && round < MAX_ROUNDS) {
-    //   roundTimer = setTimeout(() => {
-    //     console.log('Should game start: ', startGame);
-    //     console.log('ROUND:', round);
-    //     resetGame();
-    //   }, MINUTES * 60 * 1000);
-    // }
-    // return () => {
-    //   clearTimeout(roundTimer);
-    // };
-  }, [startGame, round, resetGame]);
+    if (time === 0) {
+      setStartGame(false);
+      handleShowAnswer();
+    }
+  }, [time, handleShowAnswer]);
 
   return (
     <>
       <h2>{`ROUND: ${round}`}</h2>
       {startGame && <TimeControl duration={timeLimit} />}
+      {time === 0 && <TimeIsOver />}
       <Container>
         <GameContainer>
           {generatedWords.length ? (
@@ -119,7 +125,7 @@ const ChooseWord: React.FC = () => {
         </GameContainer>
       </Container>
       <ButtonContainer>
-        <Button onClick={startTheGame} text="Iniciar" />
+        <Button color="success" onClick={startTheGame} text="Iniciar" />
         <Button onClick={() => setGeneratedWords([])} text="Recomeçar" />
         <Button
           color="danger"

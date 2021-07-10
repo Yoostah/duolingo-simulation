@@ -5,9 +5,6 @@ import { Container, ProgressBar } from './styles';
 
 interface ITimeControlProps {
   duration: number;
-  // timeIsOverFunction: () => void;
-  // resetTimer: boolean;
-  // stopTimer: boolean;
 }
 
 const TimeControl: React.FC<ITimeControlProps> = ({ duration }) => {
@@ -20,35 +17,13 @@ const TimeControl: React.FC<ITimeControlProps> = ({ duration }) => {
     if (duration && time === -1) {
       addTime(Number(duration));
     }
-  }, [duration]);
+  }, [duration, time, addTime]);
 
-  // const timeLeft = useCallback(() => {
-  //   const time = Number(duration) - progress;
-  //   return time;
-  // }, [duration, progress]);
-
-  // useEffect(() => {
-  //   if (resetTimer) {
-  //     console.log('Timer Started OR Reseted');
-
-  //     setProgress(0);
-  //   }
-  // }, [resetTimer]);
-
-  // useEffect(() => {
-  //   console.log(`+ 1 SEG  -> ${progress}`);
-  //   const progressControl = setTimeout(() => {
-  //     if (timeLeft()) {
-  //       setProgress((state) => state + 1000);
-  //     } else {
-  //       console.log('Times Is Over');
-
-  //       timeIsOverFunction();
-  //     }
-  //   }, 1000);
-
-  //   return () => clearTimeout(progressControl);
-  // }, [timeIsOverFunction, stopTimer, timeLeft, progress]);
+  useEffect(() => {
+    if (time !== -1) {
+      setProgress(time);
+    }
+  }, [time]);
 
   return (
     <Container>
