@@ -44,10 +44,11 @@ const ChooseWord: React.FC = () => {
   //   });
   // };
 
-  const getWords = () => {
-    console.log('Palavrinhas');
-    setGeneratedWords(selectRandomWords(10));
-  };
+  const getWords = useCallback(() => {
+    console.log('Palavrinhas ROUND:');
+
+    setGeneratedWords(selectRandomWords(Number((round + 1) * 10)));
+  }, [round]);
 
   const timeToBreath = async (
     delayTime: number,
@@ -80,19 +81,21 @@ const ChooseWord: React.FC = () => {
     setShowAnswer(false);
 
     console.log('Setando tempo do game');
-    setTimeLimit(MINUTES * 60);
+    setTimeLimit((round + 1) * MINUTES * 200);
 
     timeToBreath(
       3000,
       'Start The Game',
       () => {
         setStartGame(true);
-        setRound((state) => state + 1);
         getWords();
       },
-      () => setGeneratedWords([])
+      () => {
+        setGeneratedWords([]);
+        setRound((state) => state + 1);
+      }
     );
-  }, [resetTimer]);
+  }, [resetTimer, getWords]);
 
   useEffect(() => {
     if (time === 0) {
