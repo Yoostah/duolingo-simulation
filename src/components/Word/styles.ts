@@ -28,6 +28,13 @@ export const Container = styled.div<IWordProps>`
       props.revealAnswer &&
       css`
         border-color: ${colors.green};
+        background: repeating-linear-gradient(
+          45deg,
+          #58a700,
+          white 50px,
+          #58a700 200px,
+          white 500px
+        );
       `}
 
     ${(props) =>

@@ -1,17 +1,18 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { setTimeout } from 'timers';
-import Word from '../../components/Word';
 import { WORDS_API } from '../../config/urls';
-import api from '../../services/api';
 import { TChoosenWord } from './types';
-import { selectRandomWords } from '../../mocks/words';
 
-import { Container, GameContainer, ButtonContainer } from './styles';
+import Word from '../../components/Word';
 import TimeControl from '../../components/TimeControl';
 import Button from '../../components/Button';
+import TimeIsOver from '../../components/TimeIsOver';
+
+import { selectRandomWords } from '../../mocks/words';
+import api from '../../services/api';
 import { delayBetweenAction } from '../../services/utils';
 import { useTime } from '../../hooks/useTime';
-import TimeIsOver from '../../components/TimeIsOver';
+
+import { Container, GameContainer, ButtonContainer } from './styles';
 
 const ChooseWord: React.FC = () => {
   const [startGame, setStartGame] = useState(false);
@@ -56,32 +57,50 @@ const ChooseWord: React.FC = () => {
     callback?: () => void,
     cleanupCallback?: () => void
   ) => {
-    console.log(`>> Breath TIME <<`);
+    // console.log(`>> Breath TIME <<`);
 
     if (cleanupCallback) {
-      console.log('Cleaning Up the MESS');
+      // console.log('Cleaning Up the MESS');
       cleanupCallback();
     }
 
     await delayBetweenAction(delayTime);
-    console.log(`>> [ ${whoCalled} ] <<`);
+    // console.log(`>> [ ${whoCalled} ] <<`);
     if (callback) callback();
   };
 
   const handleShowAnswer = useCallback(() => {
-    console.log('Mostrar Resposta');
+    // console.log('Mostrar Resposta');
     setShowAnswer(true);
   }, []);
 
+  const handleSubmitFinalAnswer = () => {
+    if (time === -1) return;
+    resetTimer();
+    setStartGame(false);
+    handleShowAnswer();
+    setTimeLimit(0);
+  };
+
+  const resetGame = useCallback(() => {
+    resetTimer();
+    setGeneratedWords([]);
+    setShowAnswer(false);
+    setTimeLimit(0);
+    setRound(0);
+    setStartGame(false);
+  }, [resetTimer]);
+
   const startTheGame = useCallback(() => {
-    console.log('Resetando o timer');
+    if (timeLimit) return;
+    // console.log('Resetando o timer');
     resetTimer();
 
-    console.log('Ocultando respostas');
+    // console.log('Ocultando respostas');
     setShowAnswer(false);
 
-    console.log('Setando tempo do game');
-    setTimeLimit((round + 1) * MINUTES * 200);
+    // console.log('Setando tempo do game');
+    setTimeLimit(Math.floor((round + 1) * MINUTES * 200));
 
     timeToBreath(
       3000,
@@ -95,22 +114,26 @@ const ChooseWord: React.FC = () => {
         setRound((state) => state + 1);
       }
     );
-  }, [resetTimer, getWords]);
+  }, [resetTimer, getWords, round, timeLimit]);
 
   useEffect(() => {
     if (time === 0) {
       setStartGame(false);
       handleShowAnswer();
+      setTimeLimit(0);
+      if (round === MAX_ROUNDS) {
+        setRound(0);
+      }
     }
-  }, [time, handleShowAnswer]);
+  }, [time, handleShowAnswer, round]);
 
   return (
     <>
       <h2>{`ROUND: ${round}`}</h2>
       {startGame && <TimeControl duration={timeLimit} />}
-      {time === 0 && <TimeIsOver />}
+      {(time === 0 || showAnswer) && <TimeIsOver />}
       <Container>
-        <GameContainer>
+        <GameContainer data-testid="game-board">
           {generatedWords.length ? (
             generatedWords
               .sort()
@@ -128,12 +151,18 @@ const ChooseWord: React.FC = () => {
         </GameContainer>
       </Container>
       <ButtonContainer>
-        <Button color="success" onClick={startTheGame} text="Iniciar" />
-        <Button onClick={() => setGeneratedWords([])} text="Recomeçar" />
+        <Button
+          color="success"
+          onClick={startTheGame}
+          text="Iniciar"
+          disabled={Boolean(timeLimit)}
+        />
+        <Button onClick={resetGame} text="Recomeçar" disabled={!startGame} />
         <Button
           color="danger"
-          onClick={() => setGeneratedWords([])}
+          onClick={handleSubmitFinalAnswer}
           text="Finalizar"
+          disabled={!startGame}
         />
       </ButtonContainer>
     </>

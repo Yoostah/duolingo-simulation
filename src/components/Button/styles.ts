@@ -24,4 +24,11 @@ export const Container = styled.button<IButtonProps>`
   background: ${(props) => buttonColor[props.color]};
   color: ${colors.white};
   margin-left: 15px;
+
+  &:disabled {
+    background: ${colors.gray};
+    color: ${colors.gray_dark};
+    opacity: 0.65;
+    cursor: not-allowed;
+  }
 `;
