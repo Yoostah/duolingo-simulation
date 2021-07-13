@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
+import { Box, Flex, Heading, Text } from '@chakra-ui/react';
 import { WORDS_API } from '../../config/urls';
 import { TChoosenWord } from './types';
 
@@ -128,28 +129,36 @@ const ChooseWord: React.FC = () => {
   }, [time, handleShowAnswer, round]);
 
   return (
-    <>
-      <h2>{`ROUND: ${round}`}</h2>
-      {startGame && <TimeControl duration={timeLimit} />}
-      {(time === 0 || showAnswer) && <TimeIsOver />}
-      <Container>
-        <GameContainer data-testid="game-board">
-          {generatedWords.length ? (
-            generatedWords
-              .sort()
-              .map((words) => (
-                <Word
-                  key={words.key}
-                  word={words.word}
-                  correctWord={words.correctWord}
-                  showAnswer={showAnswer}
-                />
-              ))
-          ) : (
-            <p>Sem palavras</p>
-          )}
-        </GameContainer>
-      </Container>
+    <Flex direction="column" h="100vh" justifyContent="space-between">
+      <Box minH="130px">
+        <Heading fontWeight="black">{`ROUND: ${round}`}</Heading>
+        {startGame && <TimeControl duration={timeLimit} />}
+        {(time === 0 || showAnswer) && <TimeIsOver />}
+      </Box>
+
+      <Flex
+        data-testid="game-board"
+        alignItems="center"
+        justifyContent="center"
+        flexWrap="wrap"
+      >
+        {generatedWords.length ? (
+          generatedWords
+            .sort()
+            .map((words) => (
+              <Word
+                key={words.key}
+                word={words.word}
+                correctWord={words.correctWord}
+                showAnswer={showAnswer}
+              />
+            ))
+        ) : (
+          <Text casing="uppercase" fontWeight="black" fontSize="3xl">
+            Sem palavras
+          </Text>
+        )}
+      </Flex>
       <ButtonContainer>
         <Button
           color="success"
@@ -165,7 +174,7 @@ const ChooseWord: React.FC = () => {
           disabled={!startGame}
         />
       </ButtonContainer>
-    </>
+    </Flex>
   );
 };
 

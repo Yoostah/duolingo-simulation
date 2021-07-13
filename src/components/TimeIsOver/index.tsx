@@ -1,12 +1,21 @@
 import React from 'react';
+import { Box, Text } from '@chakra-ui/react';
 
 import { Container } from './styles';
 
 function TimeIsOver() {
   return (
-    <Container>
-      <span>Time is Over!!!</span>
-    </Container>
+    <Box>
+      <Text
+        fontSize="xl"
+        align="center"
+        casing="uppercase"
+        color="red.500"
+        fontWeight="black"
+      >
+        Time is Over!!!
+      </Text>
+    </Box>
   );
 }
 

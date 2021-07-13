@@ -17,5 +17,4 @@ export const GameContainer = styled.div`
 export const ButtonContainer = styled.div`
   display: flex;
   justify-content: end;
-  margin: 10px 0;
 `;
