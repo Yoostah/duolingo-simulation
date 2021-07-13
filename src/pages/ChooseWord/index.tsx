@@ -121,7 +121,7 @@ const ChooseWord: React.FC = () => {
       setStartGame(false);
       handleShowAnswer();
       setTimeLimit(0);
-      if (round === MAX_ROUNDS) {
+      if (round >= MAX_ROUNDS) {
         setRound(0);
       }
     }
